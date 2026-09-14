@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from enum import Enum
+from src.domain.entities.traffic_light import TrafficLight
 from src.domain.entities.vehicle import Vehicle
 
 class LaneDirection(Enum):
@@ -12,6 +13,7 @@ class LaneDirection(Enum):
 class Lane:
     lane_id: str
     direction: LaneDirection
+    traffic_light : TrafficLight
     vehicles: list[Vehicle] = field(default_factory=list)
 
     def enqueue_vehicle(self, vehicle: Vehicle) -> None:
@@ -27,4 +29,7 @@ class Lane:
 
     def is_empty(self) -> bool:
         return len(self.vehicles) == 0
+
+    def can_vehicles_procceed(self) -> bool:
+        return self.traffic_light.is_green()
         
